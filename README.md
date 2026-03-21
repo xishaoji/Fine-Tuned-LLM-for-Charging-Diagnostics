@@ -6,23 +6,22 @@
 
 结合多年全栈测试与平台交互经验，将海量心跳异常、启动交互失败、BMS充电交互等真实业务日志结构化，通过低成本云端算力调度，微调出精通协议栈的小模型，未来将以 API 的形式接入现有的自动化压测平台。
 
-## ✨ 核心特性
+##  项目介绍
 
-- **🚀 极速低成本微调：** 深度集成 **Unsloth** 框架，通过 Triton 算子重写与极致的梯度检查点优化，在单张云端 RTX 3090 (24G) 上即可高效完成 7B/14B 级基座模型（如 Qwen2.5）的 QLoRA 指令微调。
-- **⚡ 部署推理引擎：** 引入 **vLLM** 引擎。利用 `PagedAttention` 技术彻底消除显存碎片，支持高并发自动化测试脚本的同时调用。
-- **🔌 动态 Adapter 热插拔：** 采用 LoRA 权重动态加载机制，无需合并上百 GB 的完整模型权重。
-- **🌐 OpenAI 兼容接口：** 提供完全兼容 OpenAI 规范的 RESTful API，业务端零学习成本即可接入。
+- **低成本微调：** 深度集成 **Unsloth** 框架，通过 Triton 算子重写与极致的梯度检查点优化，在单张云端 RTX 3090 (24G) 上即可高效完成 7B/14B 级基座模型（如 Qwen2.5）的 QLoRA 指令微调。
+- **部署推理引擎：** 引入 **vLLM** 引擎。利用 `PagedAttention` 技术彻底消除显存碎片，支持高并发自动化测试脚本的同时调用。
+- **动态 Adapter ：** 采用 LoRA 权重动态加载机制，无需合并上百 GB 的完整模型权重。
+- **OpenAI 兼容接口：** 提供完全兼容 OpenAI 规范的 RESTful API，业务端零学习成本即可接入。
 
-## 🏗️ 架构设计
+## 项目结构
 
-项目遵循标准的 AI 应用工程落地范式：
 1. **Data Layer:** 清洗平台交互日志，构建 `messages` (ChatML) 格式的多轮对话指令集。
 2. **Training Layer:** 使用 `SFTTrainer` + `Unsloth` 在云端 Linux 环境进行 4-bit 量化微调。
 3. **Serving Layer:** 通过 `vLLM` 挂载 LoRA 权重，暴露 8000 端口提供高可用 API 服务。
 
 ---
 
-## 🚀 快速开始
+##  快速开始
 
 ### 1. 云端环境准备 (推荐 AutoDL)
 建议租用配备 CUDA 12.1 的 Ubuntu 基础镜像。克隆本项目后，一键配置底层依赖：
@@ -81,7 +80,7 @@ response = client.chat.completions.create(
 
 print(response.choices[0].message.content)
 ```
-📌 未来规划 (TODO)
+##  未来规划 (TODO)
 接入 RAG (检索增强生成)： 将长篇幅的国标文档 (GB/T 27930) 和车企私有协议 PDF 向量化，通过 LangChain 结合本地知识库减少模型幻觉。
 
 Web 诊断可视化面板： 使用 Gradio 或 Streamlit 开发前端交互页面，方便现场非研发测试人员上传日志文件进行诊断。

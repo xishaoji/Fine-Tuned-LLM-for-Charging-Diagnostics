@@ -28,8 +28,8 @@
 建议租用配备 CUDA 12.1 的 Ubuntu 基础镜像。克隆本项目后，一键配置底层依赖：
 
 ```bash
-git clone [https://github.com/yourusername/charging-pile-llm.git](https://github.com/yourusername/charging-pile-llm.git)
-cd charging-pile-llm
+git clone https://github.com/xishaoji/Fine-Tuned-LLM-for-Charging-Diagnostics.git
+cd Fine-Tuned-LLM-for-Charging-Diagnostics
 bash install_env.sh
 ```
 ### 2. 领域数据准备

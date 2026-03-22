@@ -1,0 +1,50 @@
+{"messages": [{"role": "user", "content": "GB/T 27930协议中，通信物理层的基础和通信速率是什么？"}, {"role": "assistant", "content": "GB/T 27930基于CAN 2.0B总线进行通信，通信速率固定为 250 kbit/s。"}]}
+{"messages": [{"role": "user", "content": "GB/T 27930的CAN数据帧采用哪种格式？标识符长度是多少？"}, {"role": "assistant", "content": "采用CAN 2.0B扩展帧格式，标识符（Identifier）长度为29位，符合SAE J1939规范。"}]}
+{"messages": [{"role": "user", "content": "在GB/T 27930协议中，充电机和车辆控制器的源地址（SA）分别被固定分配为什么？"}, {"role": "assistant", "content": "设备通信控制器（充电机/SECC）的源地址固定为0x56（十进制86），电动汽车通信控制器（车辆BMS/EVCC）的源地址固定为0xF4（十进制244）。"}]}
+{"messages": [{"role": "user", "content": "简述GB/T 27930规定的充电总体流程包含哪几个阶段？"}, {"role": "assistant", "content": "总体流程分为六个阶段：物理连接完成、低压辅助上电、充电握手阶段、充电参数配置阶段、充电阶段、以及充电结束阶段。"}]}
+{"messages": [{"role": "user", "content": "GB/T 27930协议中，报文数据中的电压和电流参数的分辨率和偏移量分别是多少？"}, {"role": "assistant", "content": "电压数据的分辨率为0.1 V/位，偏移量为0 V；电流数据的分辨率为0.1 A/位，偏移量为 -400 A（即0对应-400A，4000对应0A）。"}]}
+{"messages": [{"role": "user", "content": "报文中涉及的温度数据（如电池最高温度），其分辨率和偏移量是多少？"}, {"role": "assistant", "content": "温度数据的分辨率为 1 ℃/位，偏移量为 -50 ℃（即数据值0代表-50℃）。"}]}
+{"messages": [{"role": "user", "content": "CHM报文的中文全称是什么？它的PGN是多少？"}, {"role": "assistant", "content": "CHM的全称是“充电机握手报文”，其PGN（参数群编号）为 9728（0x002600）。"}]}
+{"messages": [{"role": "user", "content": "车辆在什么条件下会开始发送BHM报文？BHM包含什么关键信息？"}, {"role": "assistant", "content": "车辆在接收到充电机发送的CHM报文后开始发送BHM（车辆握手报文）。BHM中主要包含车辆允许的最高充电总电压信息。"}]}
+{"messages": [{"role": "user", "content": "CRM报文的作用是什么？辨识成功和未辨识的数据代码分别是什么？"}, {"role": "assistant", "content": "CRM是充电机辨识报文，用于向车辆发送辨识结果和充电机编号。数据代码 0x00 表示“不能辨识”，0xAA 表示“辨识成功”。"}]}
+{"messages": [{"role": "user", "content": "BRM报文（BMS和车辆辨识报文）包含哪些关于车辆的关键信息？"}, {"role": "assistant", "content": "BRM包含BMS通信协议版本号、电池类型（如铅酸、镍氢、磷酸铁锂等）、整车动力蓄电池额定容量、额定总电压、电池产商名称及车辆识别码（VIN）等信息。"}]}
+{"messages": [{"role": "user", "content": "充电机在什么情况下会认为握手阶段结束，进入下一阶段？"}, {"role": "assistant", "content": "充电机接收到车辆发送的BRM（辨识报文）并确认车辆信息后，会发送辨识成功（0xAA）的CRM报文。当车辆收到辨识成功的CRM后，握手阶段结束，双方进入充电参数配置阶段。"}]}
+{"messages": [{"role": "user", "content": "BCP报文（车辆充电参数报文）中包含哪些限制性参数？"}, {"role": "assistant", "content": "BCP包含单体最高允许充电电压、最高允许充电电流、最高允许充电总电压、最高允许温度等限制条件，同时也包含电池标称总能量和当前SOC。"}]}
+{"messages": [{"role": "user", "content": "CML报文（充电机最大输出能力报文）提供哪些信息给车辆？"}, {"role": "assistant", "content": "CML包含充电机的最高输出电压、最低输出电压、最大输出电流和最小输出电流。车辆会依据这些信息判断充电机能力是否匹配。"}]}
+{"messages": [{"role": "user", "content": "BRO报文的作用是什么？如何表示BMS已准备好充电？"}, {"role": "assistant", "content": "BRO是BMS充电准备就绪报文。当BMS完成参数配置并准备好充电时，会将报文中的“BMS充电准备就绪状态”字节置为0xAA；如果是0x00，则表示未准备好。"}]}
+{"messages": [{"role": "user", "content": "CRO报文的作用是什么？"}, {"role": "assistant", "content": "CRO是充电机输出准备就绪报文。充电机在收到BCP和准备就绪的BRO报文，并且自身也准备好输出后，会发送状态为0xAA的CRO报文给车辆。"}]}
+{"messages": [{"role": "user", "content": "充电参数配置阶段结束的标志是什么？"}, {"role": "assistant", "content": "当车辆发送了准备就绪的BRO报文，且充电机也发送了准备就绪的CRO报文后，表明双方都已准备完毕，参数配置阶段结束，进入充电阶段。"}]}
+{"messages": [{"role": "user", "content": "BCL报文的中文名称和作用是什么？发送周期是多长？"}, {"role": "assistant", "content": "BCL是“电池充电需求报文”，用于车辆向充电机实时发送电压需求和电流需求。发送周期非常快，为 50 ms。"}]}
+{"messages": [{"role": "user", "content": "BCL报文中的“充电模式”数据位代表什么意思？"}, {"role": "assistant", "content": "充电模式占1个字节：0x01 代表恒压充电模式，0x02 代表恒流充电模式。"}]}
+{"messages": [{"role": "user", "content": "如果车辆在BCL报文中请求的充电电压超过了CML报文中的充电机最高输出电压，充电机应如何处理？"}, {"role": "assistant", "content": "充电机应按其最大输出能力进行输出，或者发送CST报文中止充电，因为这超出了充电机的物理极限，充电机绝不能输出超过自身额定最大电压的电能。"}]}
+{"messages": [{"role": "user", "content": "BCS报文（电池充电总状态报文）的作用是什么？包含哪些关键数据？"}, {"role": "assistant", "content": "BCS用于向充电机反馈实时的充电状态，每250ms发送一次。包含当前的充电电压测量值、充电电流测量值、最高单体电压及其组号、当前SOC估算值和剩余估计充电时间。"}]}
+{"messages": [{"role": "user", "content": "CCS报文由谁发送？发送周期及内容是什么？"}, {"role": "assistant", "content": "CCS（充电机充电状态报文）由充电机发送，周期为 50 ms。主要包含充电机实际输出电压、实际输出电流以及累计充电时间。"}]}
+{"messages": [{"role": "user", "content": "BSM报文（动力蓄电池状态信息报文）主要用于传输什么信息？"}, {"role": "assistant", "content": "BSM主要用于传输电池的安全告警状态，包括单体电压过高/过低、SOC过高/过低、电池过流、温度过高、绝缘状态异常以及连接器状态等标志位。"}]}
+{"messages": [{"role": "user", "content": "如果车辆电池的绝缘检测出现严重故障，BSM报文中相应的标志位会如何显示？"}, {"role": "assistant", "content": "BSM报文中的“绝缘状态”字段会被置为对应故障的代码（例如0x02表示不可信或故障状态，具体视协议版本的定义），充电机收到后应评估是否需要中止充电。"}]}
+{"messages": [{"role": "user", "content": "BMV报文的作用是什么？"}, {"role": "assistant", "content": "BMV是“单体动力蓄电池电压报文”，由车辆发给充电机，用于详细上传各电池组中单体电池的实时电压数据。"}]}
+{"messages": [{"role": "user", "content": "BMT报文的作用是什么？"}, {"role": "assistant", "content": "BMT是“动力蓄电池温度报文”，车辆通过该报文向充电机上报各动力蓄电池组实时的温度数据。"}]}
+{"messages": [{"role": "user", "content": "在充电阶段，如果充电机连续1秒未能收到车辆的BCL或BCS报文，会发生什么？"}, {"role": "assistant", "content": "充电机将判定为通信超时。它会立即停止充电，断开输出接触器，并发送CEM（充电机错误报文），随后进入充电结束阶段。"}]}
+{"messages": [{"role": "user", "content": "如果车辆判断电池已经充满（达到目标SOC），应该如何结束充电？"}, {"role": "assistant", "content": "车辆会向充电机发送BST（车辆中止充电报文），并在报文的中止原因字段中标记“达到所需求的SOC目标值”（通常将对应位置1），充电机收到后会停止输出。"}]}
+{"messages": [{"role": "user", "content": "BST报文（车辆中止充电报文）中，“中止原因”支持哪些常见触发条件？"}, {"role": "assistant", "content": "常见中止原因包括：达到目标SOC、达到总电压设定值、达到单体电压设定值、充电机主动中止等。"}]}
+{"messages": [{"role": "user", "content": "BST报文中如果提示“故障中止”，常见的故障原因参数有哪些？"}, {"role": "assistant", "content": "包括：绝缘故障、输出连接器过温故障、BMS元件过温故障、充电连接器故障、电池组温度过高、高压继电器故障等。"}]}
+{"messages": [{"role": "user", "content": "CST报文的作用及发送端是谁？"}, {"role": "assistant", "content": "CST是“充电机中止充电报文”，由充电机在决定停止充电时向车辆发送，发送周期为10ms。"}]}
+{"messages": [{"role": "user", "content": "CST报文中常见的“充电机中止原因”有哪些？"}, {"role": "assistant", "content": "包括：达到充电机设定的条件中止、人工主动中止、故障中止、以及收到BMS中止报文后中止。"}]}
+{"messages": [{"role": "user", "content": "如果因为充电桩发生内部过温，CST报文会如何反馈？"}, {"role": "assistant", "content": "充电机发送的CST报文中，会将“充电机故障原因”字段中的“充电机内部温度过高”对应的位设置为故障状态（通常为01），告知车辆是由于温度过高导致中止。"}]}
+{"messages": [{"role": "user", "content": "BSD报文的中文名是什么？它包含哪些统计信息？"}, {"role": "assistant", "content": "BSD是“BMS统计数据报文”。它包含充电结束时的SOC、单体电池最低和最高电压、电池最低和最高温度等统计信息。"}]}
+{"messages": [{"role": "user", "content": "CSD报文（充电机统计数据报文）向车辆提供哪些数据？"}, {"role": "assistant", "content": "CSD包含本次充电的累计充电时间、输出总电量（能量）以及充电机的唯一编号。"}]}
+{"messages": [{"role": "user", "content": "充电结束阶段，通信何时才算真正完全终止？"}, {"role": "assistant", "content": "当车辆和充电机交互完BST、CST报文，断开接触器后，再互相交互BSD和CSD统计报文。统计数据交互完毕后，通信流程正式结束。"}]}
+{"messages": [{"role": "user", "content": "BEM报文的作用是什么？"}, {"role": "assistant", "content": "BEM是“BMS错误报文”，当车辆在通信过程中发现对方报文超时或数据异常时，向充电机发送错误代码。"}]}
+{"messages": [{"role": "user", "content": "CEM报文的作用是什么？"}, {"role": "assistant", "content": "CEM是“充电机错误报文”，当充电机在任何阶段检测到车辆报文超时或不符合协议规范时，发送该报文并执行相应的停止操作。"}]}
+{"messages": [{"role": "user", "content": "如果车辆在握手阶段超过5秒未收到充电机的CHM报文，应如何处理？"}, {"role": "assistant", "content": "车辆会判定为接收CHM超时，此时车辆应发送BEM（BMS错误报文）指示超时错误，并进入故障处理流程，不闭合充电回路。"}]}
+{"messages": [{"role": "user", "content": "GB/T 27930协议中，多字节数据的传输顺序是怎样的（大端还是小端）？"}, {"role": "assistant", "content": "遵循SAE J1939规范，多字节参数在CAN报文数据域中采用低字节在先、高字节在后（小端模式，Little-Endian）的顺序传输。"}]}
+{"messages": [{"role": "user", "content": "对于长度超过8个字节的报文（如BRM或单体电压信息），GB/T 27930如何进行传输？"}, {"role": "assistant", "content": "采用SAE J1939-21协议规定的传输协议（Transport Protocol, TP）功能进行多包传输，包含连接管理（BAM或RTS/CTS）和数据传输功能。"}]}
+{"messages": [{"role": "user", "content": "多包传输中的RTS报文的作用是什么？"}, {"role": "assistant", "content": "RTS（Request to Send，请求发送）由发送节点发出，用于向接收节点申请建立多包数据传输连接，并告知将要发送的报文总字节数和总包数。"}]}
+{"messages": [{"role": "user", "content": "多包传输中的CTS报文的作用是什么？"}, {"role": "assistant", "content": "CTS（Clear to Send，准备好接收）由接收节点回复给发送节点，表示已准备好接收数据，并指定发送节点接下来可以发送的数据包数量及起始序号。"}]}
+{"messages": [{"role": "user", "content": "充电机如果在充电握手阶段自检发现自身发生严重绝缘故障，还会发送CRM报文吗？"}, {"role": "assistant", "content": "通常充电机如果自检不通过或绝缘故障，将停止握手，不闭合高压接触器，可能会直接发送CEM或CST报文报警，终止本次充电交互。"}]}
+{"messages": [{"role": "user", "content": "如果充电机在配置阶段收到了车辆发来的BCP报文，发现允许的最高充电电压只有200V，而充电机的最低输出电压是300V，充电机该怎么做？"}, {"role": "assistant", "content": "充电机在进行参数匹配评估后，会发现自身能力无法满足车辆需求。充电机将拒绝进入充电阶段，通常发送未就绪的CRO报文或发出CST中止报文结束流程。"}]}
+{"messages": [{"role": "user", "content": "车辆发送的BCL报文中，如果电压需求为400V，电流需求为0A，这代表什么操作？"}, {"role": "assistant", "content": "电流需求为0A通常代表车辆要求充电机暂不输出电流或进入待机状态，充电机应响应将输出电流降至0A（或最低限度），同时维持电压输出或进行停机准备。"}]}
+{"messages": [{"role": "user", "content": "在通信报文中，如果某个数据参数（如1字节）不可用或未安装，应填入什么值？"}, {"role": "assistant", "content": "按照协议约定，对于1字节的数据，如果是无效、未安装或不可用状态，通常填充为 0xFF；若是2字节数据则填充 0xFFFF。"}]}
+{"messages": [{"role": "user", "content": "充电机在收到车辆BST中止报文后，还需要继续发送CCS充电状态报文吗？"}, {"role": "assistant", "content": "不需要，收到BST并决定停止输出后，充电机会停止发送CCS报文，转而发送CST（充电机中止充电报文），进入结束阶段。"}]}
+{"messages": [{"role": "user", "content": "在低压辅助上电阶段，充电机为车辆BMS提供什么规格的辅助电源？"}, {"role": "assistant", "content": "一般情况下，充电机在A+, A-触头上为电动汽车BMS提供12V或24V的低压直流辅助电源，用于唤醒BMS并驱动通信电路。"}]}
+{"messages": [{"role": "user", "content": "如果电动汽车不支持该充电机的通信协议版本号，在接收到CHM后会有什么动作？"}, {"role": "assistant", "content": "如果车辆判定协议版本完全不兼容，可能会拒绝响应、发送不匹配的辨识结果，或发出BEM错误报文提示协议不兼容，从而中断握手流程。"}]}
+{"messages": [{"role": "user", "content": "充电机输出电流大于车辆BCL报文请求的电流上限时，属于什么故障？"}, {"role": "assistant", "content": "这属于充电机输出失控。如果电流超出限值且持续一定时间，车辆BMS会发送BST报文，将“充电机输出电流与需求电流不匹配”错误标志位置1，并紧急中止充电。"}]}
